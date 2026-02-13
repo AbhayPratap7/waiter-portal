@@ -67,15 +67,16 @@ header p { color: #c0c0c0; font-size: 14px; font-weight: 300; letter-spacing: 1p
 .add-to-cart-btn:active { transform: translateY(0); }
 .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
 .modal.active { display: flex; }
-.modal-content { background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%); padding: 40px; border-radius: 12px; max-width: 500px; width: 90%; border: 2px solid #d4af37; animation: modalSlideIn 0.3s ease; }
+.modal-content { background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%); padding: 40px; border-radius: 12px; max-width: 500px; width: 90%; border: 2px solid #d4af37; animation: modalSlideIn 0.3s ease; max-height: 90vh; overflow-y: auto; }
 @keyframes modalSlideIn { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
 .modal-header { text-align: center; margin-bottom: 30px; }
 .modal-header h2 { font-family: 'Playfair Display', serif; font-size: 28px; color: #d4af37; margin-bottom: 10px; }
 .modal-header p { color: #999; font-size: 13px; }
 .form-group { margin-bottom: 25px; }
 .form-group label { display: block; margin-bottom: 8px; color: #d4af37; font-size: 13px; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; }
-.form-group input { width: 100%; padding: 12px 15px; background: rgba(40, 40, 40, 0.8); border: 1px solid #444; border-radius: 6px; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 16px; transition: all 0.3s; }
-.form-group input:focus { outline: none; border-color: #d4af37; background: rgba(50, 50, 50, 0.9); }
+.form-group input, .form-group select { width: 100%; padding: 12px 15px; background: rgba(40, 40, 40, 0.8); border: 1px solid #444; border-radius: 6px; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 16px; transition: all 0.3s; }
+.form-group input:focus, .form-group select:focus { outline: none; border-color: #d4af37; background: rgba(50, 50, 50, 0.9); }
+.form-group select { cursor: pointer; }
 .order-summary { background: rgba(40, 40, 40, 0.6); padding: 20px; border-radius: 8px; margin-bottom: 25px; border-left: 3px solid #d4af37; }
 .order-summary h3 { font-size: 16px; color: #d4af37; margin-bottom: 15px; font-weight: 500; }
 .order-item { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; padding: 8px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
@@ -92,7 +93,8 @@ header p { color: #c0c0c0; font-size: 14px; font-weight: 300; letter-spacing: 1p
 .btn-confirm:disabled { background: #444; color: #666; cursor: not-allowed; transform: none; }
 .success-modal .modal-content { text-align: center; }
 .success-icon { font-size: 60px; color: #28a745; margin-bottom: 20px; }
-.cart-badge { position: absolute; top: -5px; right: -5px; background: #d4af37; color: #1a1a1a; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; }
+.download-btn { background: rgba(212, 175, 55, 0.2); border: 1px solid #d4af37; color: #d4af37; padding: 12px 20px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; margin-top: 15px; transition: all 0.3s; display: inline-block; text-decoration: none; }
+.download-btn:hover { background: rgba(212, 175, 55, 0.3); transform: translateY(-1px); }
 footer { text-align: center; padding: 25px 20px; background: rgba(0, 0, 0, 0.5); border-top: 1px solid #333; font-size: 12px; color: #888; font-weight: 300; }
 
 @media (max-width: 1024px) {
@@ -159,17 +161,17 @@ footer { text-align: center; padding: 25px 20px; background: rgba(0, 0, 0, 0.5);
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Espresso</span><span class="item-price">₹149</span></div>
 <p class="item-description">Pure, concentrated coffee excellence</p>
-<button class="add-to-cart-btn" onclick="addToCart('Espresso', 149)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Espresso', 149, 'Coffee')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Americano</span><span class="item-price">₹169</span></div>
 <p class="item-description">Espresso with hot water for a smooth finish</p>
-<button class="add-to-cart-btn" onclick="addToCart('Americano', 169)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Americano', 169, 'Coffee')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Iced Espresso</span><span class="item-price">₹169</span></div>
 <p class="item-description">Chilled espresso shot over ice</p>
-<button class="add-to-cart-btn" onclick="addToCart('Iced Espresso', 169)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Iced Espresso', 169, 'Coffee')">Add to Cart</button>
 </div>
 </div>
 </div>
@@ -178,24 +180,24 @@ footer { text-align: center; padding: 25px 20px; background: rgba(0, 0, 0, 0.5);
 <h3 class="subsection-title">Slow Bar</h3>
 <div class="menu-grid">
 <div class="menu-item">
-<div class="item-header"><span class="item-name">V60 Pourover (Hot / Iced)</span><span class="item-price">₹279</span></div>
+<div class="item-header"><span class="item-name">V60 Pourover</span><span class="item-price">₹279</span></div>
 <p class="item-description">Precision brewed pour over coffee</p>
-<button class="add-to-cart-btn" onclick="addToCart('V60 Pourover', 279)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('V60 Pourover', 279, 'Coffee')">Add to Cart</button>
 </div>
 <div class="menu-item">
-<div class="item-header"><span class="item-name">Aeropress (Hot / Iced)</span><span class="item-price">₹279</span></div>
+<div class="item-header"><span class="item-name">Aeropress</span><span class="item-price">₹279</span></div>
 <p class="item-description">Smooth, rich aeropress brew</p>
-<button class="add-to-cart-btn" onclick="addToCart('Aeropress', 279)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Aeropress', 279, 'Coffee')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">French Press</span><span class="item-price">₹279</span></div>
 <p class="item-description">Full-bodied traditional French press</p>
-<button class="add-to-cart-btn" onclick="addToCart('French Press', 279)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('French Press', 279, 'Coffee')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Vietnamese Filter</span><span class="item-price">₹239</span></div>
 <p class="item-description">Traditional Vietnamese drip coffee</p>
-<button class="add-to-cart-btn" onclick="addToCart('Vietnamese Filter', 239)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Vietnamese Filter', 239, 'Coffee')">Add to Cart</button>
 </div>
 </div>
 </div>
@@ -206,37 +208,37 @@ footer { text-align: center; padding: 25px 20px; background: rgba(0, 0, 0, 0.5);
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Cortado</span><span class="item-price">₹219</span></div>
 <p class="item-description">Espresso balanced with warm milk</p>
-<button class="add-to-cart-btn" onclick="addToCart('Cortado', 219)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Cortado', 219, 'Coffee')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Flat White</span><span class="item-price">₹219</span></div>
 <p class="item-description">Velvety microfoam with rich espresso</p>
-<button class="add-to-cart-btn" onclick="addToCart('Flat White', 219)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Flat White', 219, 'Coffee')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Cappuccino</span><span class="item-price">₹229</span></div>
 <p class="item-description">Classic Italian coffee with foam</p>
-<button class="add-to-cart-btn" onclick="addToCart('Cappuccino', 229)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Cappuccino', 229, 'Coffee')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Honey Spiced Latte</span><span class="item-price">₹319</span></div>
 <p class="item-description">Aromatic spices with natural honey sweetness</p>
-<button class="add-to-cart-btn" onclick="addToCart('Honey Spiced Latte', 319)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Honey Spiced Latte', 319, 'Coffee')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">French Vanilla Latte</span><span class="item-price">₹259</span></div>
 <p class="item-description">Smooth vanilla infused latte</p>
-<button class="add-to-cart-btn" onclick="addToCart('French Vanilla Latte', 259)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('French Vanilla Latte', 259, 'Coffee')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Mocha</span><span class="item-price">₹319</span></div>
 <p class="item-description">Rich chocolate with espresso and milk</p>
-<button class="add-to-cart-btn" onclick="addToCart('Mocha', 319)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Mocha', 319, 'Coffee')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Mint Mocha</span><span class="item-price">₹329</span></div>
 <p class="item-description">Refreshing mint with rich chocolate</p>
-<button class="add-to-cart-btn" onclick="addToCart('Mint Mocha', 329)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Mint Mocha', 329, 'Coffee')">Add to Cart</button>
 </div>
 </div>
 </div>
@@ -247,37 +249,37 @@ footer { text-align: center; padding: 25px 20px; background: rgba(0, 0, 0, 0.5);
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Iced Americano</span><span class="item-price">₹179</span></div>
 <p class="item-description">Cold espresso with water over ice</p>
-<button class="add-to-cart-btn" onclick="addToCart('Iced Americano', 179)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Iced Americano', 179, 'Coffee')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Iced Cortado</span><span class="item-price">₹229</span></div>
 <p class="item-description">Cold espresso with perfect milk balance</p>
-<button class="add-to-cart-btn" onclick="addToCart('Iced Cortado', 229)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Iced Cortado', 229, 'Coffee')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Iced Latte</span><span class="item-price">₹259</span></div>
 <p class="item-description">Smooth espresso with cold milk over ice</p>
-<button class="add-to-cart-btn" onclick="addToCart('Iced Latte', 259)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Iced Latte', 259, 'Coffee')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Iced Caramel Latte</span><span class="item-price">₹299</span></div>
 <p class="item-description">Sweet caramel with espresso and cold milk</p>
-<button class="add-to-cart-btn" onclick="addToCart('Iced Caramel Latte', 299)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Iced Caramel Latte', 299, 'Coffee')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Iced Mocha</span><span class="item-price">₹289</span></div>
 <p class="item-description">Chocolate and espresso chilled to perfection</p>
-<button class="add-to-cart-btn" onclick="addToCart('Iced Mocha', 289)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Iced Mocha', 289, 'Coffee')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Iced Caramelized Jaggery Latte</span><span class="item-price">₹299</span></div>
 <p class="item-description">Traditional jaggery sweetness meets modern cold brew</p>
-<button class="add-to-cart-btn" onclick="addToCart('Iced Caramelized Jaggery Latte', 299)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Iced Caramelized Jaggery Latte', 299, 'Coffee')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Iced Kava Special</span><span class="item-price">₹239</span></div>
 <p class="item-description">Our signature iced coffee creation</p>
-<button class="add-to-cart-btn" onclick="addToCart('Iced Kava Special', 239)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Iced Kava Special', 239, 'Coffee')">Add to Cart</button>
 </div>
 </div>
 </div>
@@ -288,27 +290,27 @@ footer { text-align: center; padding: 25px 20px; background: rgba(0, 0, 0, 0.5);
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Passion Legacy</span><span class="item-price">₹319</span></div>
 <p class="item-description">Our signature passionfruit creation</p>
-<button class="add-to-cart-btn" onclick="addToCart('Passion Legacy', 319)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Passion Legacy', 319, 'Coffee')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Coolberg Caffeinated</span><span class="item-price">₹319</span></div>
 <p class="item-description">Non-alcoholic craft beer with coffee twist</p>
-<button class="add-to-cart-btn" onclick="addToCart('Coolberg Caffeinated', 319)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Coolberg Caffeinated', 319, 'Coffee')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Lime-Lite</span><span class="item-price">₹299</span></div>
 <p class="item-description">Sparkling lime refreshment</p>
-<button class="add-to-cart-btn" onclick="addToCart('Lime-Lite', 299)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Lime-Lite', 299, 'Coffee')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Modern Mojo</span><span class="item-price">₹379</span></div>
 <p class="item-description">Contemporary twist on classic flavors</p>
-<button class="add-to-cart-btn" onclick="addToCart('Modern Mojo', 379)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Modern Mojo', 379, 'Coffee')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Salted Caramel Paloma</span><span class="item-price">₹339</span></div>
 <p class="item-description">Sweet and salty citrus delight</p>
-<button class="add-to-cart-btn" onclick="addToCart('Salted Caramel Paloma', 339)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Salted Caramel Paloma', 339, 'Coffee')">Add to Cart</button>
 </div>
 </div>
 </div>
@@ -323,42 +325,42 @@ footer { text-align: center; padding: 25px 20px; background: rgba(0, 0, 0, 0.5);
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Matcha Latte</span><span class="item-price">₹349</span></div>
 <p class="item-description">Ceremonial grade Japanese matcha with steamed milk</p>
-<button class="add-to-cart-btn" onclick="addToCart('Matcha Latte', 349)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Matcha Latte', 349, 'Matcha')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Iced Matcha Latte</span><span class="item-price">₹369</span></div>
 <p class="item-description">Chilled ceremonial matcha perfection</p>
-<button class="add-to-cart-btn" onclick="addToCart('Iced Matcha Latte', 369)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Iced Matcha Latte', 369, 'Matcha')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Coconut Cloud Matcha</span><span class="item-price">₹389</span></div>
 <p class="item-description">Matcha with creamy coconut milk foam</p>
-<button class="add-to-cart-btn" onclick="addToCart('Coconut Cloud Matcha', 389)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Coconut Cloud Matcha', 389, 'Matcha')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Blueberry Coconut Matcha</span><span class="item-price">₹389</span></div>
 <p class="item-description">Berry sweetness meets tropical matcha</p>
-<button class="add-to-cart-btn" onclick="addToCart('Blueberry Coconut Matcha', 389)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Blueberry Coconut Matcha', 389, 'Matcha')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Orange Matcha Tonic</span><span class="item-price">₹379</span></div>
 <p class="item-description">Refreshing citrus with sparkling matcha</p>
-<button class="add-to-cart-btn" onclick="addToCart('Orange Matcha Tonic', 379)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Orange Matcha Tonic', 379, 'Matcha')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Strawberry Matcha Latte</span><span class="item-price">₹379</span></div>
 <p class="item-description">Sweet strawberries with earthy matcha</p>
-<button class="add-to-cart-btn" onclick="addToCart('Strawberry Matcha Latte', 379)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Strawberry Matcha Latte', 379, 'Matcha')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Lemonade Iced Matcha</span><span class="item-price">₹369</span></div>
 <p class="item-description">Zesty lemon meets vibrant green tea</p>
-<button class="add-to-cart-btn" onclick="addToCart('Lemonade Iced Matcha', 369)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Lemonade Iced Matcha', 369, 'Matcha')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Passionfruit Matcha Spritzer</span><span class="item-price">₹389</span></div>
 <p class="item-description">Tropical passionfruit with sparkling matcha</p>
-<button class="add-to-cart-btn" onclick="addToCart('Passionfruit Matcha Spritzer', 389)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Passionfruit Matcha Spritzer', 389, 'Matcha')">Add to Cart</button>
 </div>
 </div>
 </section>
@@ -375,27 +377,27 @@ footer { text-align: center; padding: 25px 20px; background: rgba(0, 0, 0, 0.5);
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Classic Frappe</span><span class="item-price">₹249</span></div>
 <p class="item-description">Traditional iced coffee frappe</p>
-<button class="add-to-cart-btn" onclick="addToCart('Classic Frappe', 249)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Classic Frappe', 249, 'Shakes')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Caramelized Frappe</span><span class="item-price">₹279</span></div>
 <p class="item-description">Rich caramel blended with coffee</p>
-<button class="add-to-cart-btn" onclick="addToCart('Caramelized Frappe', 279)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Caramelized Frappe', 279, 'Shakes')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Hazelnut Frappe</span><span class="item-price">₹289</span></div>
 <p class="item-description">Nutty hazelnut meets iced coffee</p>
-<button class="add-to-cart-btn" onclick="addToCart('Hazelnut Frappe', 289)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Hazelnut Frappe', 289, 'Shakes')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Espresso Brownie Frappe</span><span class="item-price">₹359</span></div>
 <p class="item-description">Decadent brownie blended with espresso</p>
-<button class="add-to-cart-btn" onclick="addToCart('Espresso Brownie Frappe', 359)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Espresso Brownie Frappe', 359, 'Shakes')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Spiced Frappe</span><span class="item-price">₹269</span></div>
 <p class="item-description">Warm spices in chilled coffee</p>
-<button class="add-to-cart-btn" onclick="addToCart('Spiced Frappe', 269)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Spiced Frappe', 269, 'Shakes')">Add to Cart</button>
 </div>
 </div>
 </div>
@@ -406,37 +408,37 @@ footer { text-align: center; padding: 25px 20px; background: rgba(0, 0, 0, 0.5);
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Biscoff Cheesecake Shake</span><span class="item-price">₹329</span></div>
 <p class="item-description">Cookie butter blended with cheesecake goodness</p>
-<button class="add-to-cart-btn" onclick="addToCart('Biscoff Cheesecake Shake', 329)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Biscoff Cheesecake Shake', 329, 'Shakes')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Oreo Cookie Crumble Shake</span><span class="item-price">₹299</span></div>
 <p class="item-description">Classic cookies and cream perfection</p>
-<button class="add-to-cart-btn" onclick="addToCart('Oreo Cookie Crumble Shake', 299)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Oreo Cookie Crumble Shake', 299, 'Shakes')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Nutella Cheesecake Shake</span><span class="item-price">₹349</span></div>
 <p class="item-description">Hazelnut chocolate meets creamy cheesecake</p>
-<button class="add-to-cart-btn" onclick="addToCart('Nutella Cheesecake Shake', 349)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Nutella Cheesecake Shake', 349, 'Shakes')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Choco Brownie Shake</span><span class="item-price">₹309</span></div>
 <p class="item-description">Rich chocolate brownies blended to perfection</p>
-<button class="add-to-cart-btn" onclick="addToCart('Choco Brownie Shake', 309)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Choco Brownie Shake', 309, 'Shakes')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Blueberry Cheesecake Shake</span><span class="item-price">₹329</span></div>
 <p class="item-description">Fresh blueberries with creamy cheesecake</p>
-<button class="add-to-cart-btn" onclick="addToCart('Blueberry Cheesecake Shake', 329)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Blueberry Cheesecake Shake', 329, 'Shakes')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Ferrero Rocher Shake</span><span class="item-price">₹369</span></div>
 <p class="item-description">Luxurious hazelnut chocolate indulgence</p>
-<button class="add-to-cart-btn" onclick="addToCart('Ferrero Rocher Shake', 369)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Ferrero Rocher Shake', 369, 'Shakes')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Double Chocolate Shake</span><span class="item-price">₹299</span></div>
 <p class="item-description">Double the chocolate, double the bliss</p>
-<button class="add-to-cart-btn" onclick="addToCart('Double Chocolate Shake', 299)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Double Chocolate Shake', 299, 'Shakes')">Add to Cart</button>
 </div>
 </div>
 </div>
@@ -451,37 +453,37 @@ footer { text-align: center; padding: 25px 20px; background: rgba(0, 0, 0, 0.5);
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Classic Mint Mojito</span><span class="item-price">₹249</span></div>
 <p class="item-description">Fresh mint, lime, and sparkling soda</p>
-<button class="add-to-cart-btn" onclick="addToCart('Classic Mint Mojito', 249)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Classic Mint Mojito', 249, 'Refreshers')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Cranberry Mojito</span><span class="item-price">₹279</span></div>
 <p class="item-description">Tart cranberry with mint and lime</p>
-<button class="add-to-cart-btn" onclick="addToCart('Cranberry Mojito', 279)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Cranberry Mojito', 279, 'Refreshers')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Virgin Sangria</span><span class="item-price">₹309</span></div>
 <p class="item-description">Mixed fruit mocktail with sparkling notes</p>
-<button class="add-to-cart-btn" onclick="addToCart('Virgin Sangria', 309)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Virgin Sangria', 309, 'Refreshers')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Kimazzo</span><span class="item-price">₹299</span></div>
 <p class="item-description">Refreshing specialty blend</p>
-<button class="add-to-cart-btn" onclick="addToCart('Kimazzo', 299)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Kimazzo', 299, 'Refreshers')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Berry Spritzer</span><span class="item-price">₹299</span></div>
 <p class="item-description">Mixed berries with sparkling water</p>
-<button class="add-to-cart-btn" onclick="addToCart('Berry Spritzer', 299)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Berry Spritzer', 299, 'Refreshers')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Lemon Iced Tea</span><span class="item-price">₹279</span></div>
 <p class="item-description">Classic citrus refreshment</p>
-<button class="add-to-cart-btn" onclick="addToCart('Lemon Iced Tea', 279)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Lemon Iced Tea', 279, 'Refreshers')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Peach Iced Tea</span><span class="item-price">₹289</span></div>
 <p class="item-description">Sweet peach infused iced tea</p>
-<button class="add-to-cart-btn" onclick="addToCart('Peach Iced Tea', 289)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Peach Iced Tea', 289, 'Refreshers')">Add to Cart</button>
 </div>
 </div>
 </section>
@@ -495,42 +497,42 @@ footer { text-align: center; padding: 25px 20px; background: rgba(0, 0, 0, 0.5);
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Mushroom Pâté Tart</span><span class="item-price">₹239</span></div>
 <p class="item-description">Rich mushroom pâté on flaky pastry with herb garnish</p>
-<button class="add-to-cart-btn" onclick="addToCart('Mushroom Pâté Tart', 239)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Mushroom Pâté Tart', 239, 'Starters')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Seasonal Vegetable Tart</span><span class="item-price">₹299</span></div>
 <p class="item-description">Garden fresh vegetables in buttery tart shell</p>
-<button class="add-to-cart-btn" onclick="addToCart('Seasonal Vegetable Tart', 299)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Seasonal Vegetable Tart', 299, 'Starters')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Classic Tomato Bruschetta</span><span class="item-price">₹325</span></div>
 <p class="item-description">Vine-ripened tomatoes, basil pesto on toasted ciabatta</p>
-<button class="add-to-cart-btn" onclick="addToCart('Classic Tomato Bruschetta', 325)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Classic Tomato Bruschetta', 325, 'Starters')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Peach & Cream Cheese Bruschetta</span><span class="item-price">₹359</span></div>
 <p class="item-description">Sweet peaches with whipped cream cheese on grilled bread</p>
-<button class="add-to-cart-btn" onclick="addToCart('Peach & Cream Cheese Bruschetta', 359)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Peach & Cream Cheese Bruschetta', 359, 'Starters')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Peri Peri Cottage Cheese</span><span class="item-price">₹329</span></div>
 <p class="item-description">Spiced cottage cheese cubes with African peri peri marinade</p>
-<button class="add-to-cart-btn" onclick="addToCart('Peri Peri Cottage Cheese', 329)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Peri Peri Cottage Cheese', 329, 'Starters')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Classic Hummus Platter</span><span class="item-price">₹249</span></div>
 <p class="item-description">Creamy chickpea hummus served with warm pita bread</p>
-<button class="add-to-cart-btn" onclick="addToCart('Classic Hummus Platter', 249)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Classic Hummus Platter', 249, 'Starters')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Vegetable Masa Harina Tacos</span><span class="item-price">₹429</span></div>
 <p class="item-description">Authentic Mexican-style tacos with seasoned vegetables</p>
-<button class="add-to-cart-btn" onclick="addToCart('Vegetable Masa Harina Tacos', 429)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Vegetable Masa Harina Tacos', 429, 'Starters')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Vietnamese Rice Paper Rolls</span><span class="item-price">₹399</span></div>
 <p class="item-description">Fresh vegetables wrapped in delicate rice paper with dipping sauce</p>
-<button class="add-to-cart-btn" onclick="addToCart('Vietnamese Rice Paper Rolls', 399)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Vietnamese Rice Paper Rolls', 399, 'Starters')">Add to Cart</button>
 </div>
 </div>
 </section>
@@ -544,27 +546,27 @@ footer { text-align: center; padding: 25px 20px; background: rgba(0, 0, 0, 0.5);
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Creamy Broccoli Soup</span><span class="item-price">₹229</span></div>
 <p class="item-description">Velvety broccoli soup with a hint of cream and herbs</p>
-<button class="add-to-cart-btn" onclick="addToCart('Creamy Broccoli Soup', 229)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Creamy Broccoli Soup', 229, 'Soups')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Potato & Leek Soup</span><span class="item-price">₹199</span></div>
 <p class="item-description">Classic French-inspired soup with tender potatoes and leeks</p>
-<button class="add-to-cart-btn" onclick="addToCart('Potato & Leek Soup', 199)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Potato & Leek Soup', 199, 'Soups')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Mushroom Cappuccino</span><span class="item-price">₹199</span></div>
 <p class="item-description">Frothy mushroom essence topped with micro herbs</p>
-<button class="add-to-cart-btn" onclick="addToCart('Mushroom Cappuccino', 199)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Mushroom Cappuccino', 199, 'Soups')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Roasted Pumpkin Soup</span><span class="item-price">₹199</span></div>
 <p class="item-description">Autumn-inspired roasted pumpkin with aromatic spices</p>
-<button class="add-to-cart-btn" onclick="addToCart('Roasted Pumpkin Soup', 199)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Roasted Pumpkin Soup', 199, 'Soups')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Sweet Corn Velouté</span><span class="item-price">₹199</span></div>
 <p class="item-description">Silky sweet corn soup with a touch of butter</p>
-<button class="add-to-cart-btn" onclick="addToCart('Sweet Corn Velouté', 199)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Sweet Corn Velouté', 199, 'Soups')">Add to Cart</button>
 </div>
 </div>
 </section>
@@ -578,17 +580,17 @@ footer { text-align: center; padding: 25px 20px; background: rgba(0, 0, 0, 0.5);
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Mandarin Iceberg Salad</span><span class="item-price">₹339</span></div>
 <p class="item-description">Crisp iceberg lettuce with mandarin segments and citrus dressing</p>
-<button class="add-to-cart-btn" onclick="addToCart('Mandarin Iceberg Salad', 339)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Mandarin Iceberg Salad', 339, 'Salads')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Caprese Cottage Salad</span><span class="item-price">₹339</span></div>
 <p class="item-description">Italian-style cottage cheese with tomatoes, basil, and balsamic</p>
-<button class="add-to-cart-btn" onclick="addToCart('Caprese Cottage Salad', 339)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Caprese Cottage Salad', 339, 'Salads')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Som Tam (Thai Papaya Salad)</span><span class="item-price">₹249</span></div>
 <p class="item-description">Shredded green papaya with Thai herbs and tangy lime dressing</p>
-<button class="add-to-cart-btn" onclick="addToCart('Som Tam (Thai Papaya Salad)', 249)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Som Tam (Thai Papaya Salad)', 249, 'Salads')">Add to Cart</button>
 </div>
 </div>
 </section>
@@ -602,22 +604,22 @@ footer { text-align: center; padding: 25px 20px; background: rgba(0, 0, 0, 0.5);
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Italian Herb Rice Bowl</span><span class="item-price">₹525</span></div>
 <p class="item-description">Herb-infused rice with romesco sauce and Mediterranean vegetables</p>
-<button class="add-to-cart-btn" onclick="addToCart('Italian Herb Rice Bowl', 525)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Italian Herb Rice Bowl', 525, 'Bowls')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Mexican Fiesta Bowl</span><span class="item-price">₹549</span></div>
 <p class="item-description">Spiced kidney beans, rice, salsa, and Mexican condiments</p>
-<button class="add-to-cart-btn" onclick="addToCart('Mexican Fiesta Bowl', 549)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Mexican Fiesta Bowl', 549, 'Bowls')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Bangkok Red Curry Bowl</span><span class="item-price">₹449</span></div>
 <p class="item-description">Aromatic Thai red curry with jasmine rice and vegetables</p>
-<button class="add-to-cart-btn" onclick="addToCart('Bangkok Red Curry Bowl', 449)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Bangkok Red Curry Bowl', 449, 'Bowls')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Thai Green Curry Bowl</span><span class="item-price">₹449</span></div>
 <p class="item-description">Fragrant green curry with coconut milk, bamboo shoots, and basil</p>
-<button class="add-to-cart-btn" onclick="addToCart('Thai Green Curry Bowl', 449)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Thai Green Curry Bowl', 449, 'Bowls')">Add to Cart</button>
 </div>
 </div>
 </section>
@@ -631,37 +633,37 @@ footer { text-align: center; padding: 25px 20px; background: rgba(0, 0, 0, 0.5);
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Aglio Olio Classic</span><span class="item-price">₹359</span></div>
 <p class="item-description">Traditional garlic and olive oil pasta with red chili flakes</p>
-<button class="add-to-cart-btn" onclick="addToCart('Aglio Olio Classic', 359)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Aglio Olio Classic', 359, 'Pasta')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Caramelised Onion Cream Pasta</span><span class="item-price">₹379</span></div>
 <p class="item-description">Sweet caramelised onions in a silky cream sauce</p>
-<button class="add-to-cart-btn" onclick="addToCart('Caramelised Onion Cream Pasta', 379)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Caramelised Onion Cream Pasta', 379, 'Pasta')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Three Cheese Comfort Pasta</span><span class="item-price">₹449</span></div>
 <p class="item-description">Indulgent blend of three premium cheeses in creamy sauce</p>
-<button class="add-to-cart-btn" onclick="addToCart('Three Cheese Comfort Pasta', 449)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Three Cheese Comfort Pasta', 449, 'Pasta')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Pesto Verde Italiano</span><span class="item-price">₹499</span></div>
 <p class="item-description">Fresh basil pesto with pine nuts and parmesan</p>
-<button class="add-to-cart-btn" onclick="addToCart('Pesto Verde Italiano', 499)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Pesto Verde Italiano', 499, 'Pasta')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Arrabbiata Rosso</span><span class="item-price">₹489</span></div>
 <p class="item-description">Spicy tomato sauce with garlic and red chilies</p>
-<button class="add-to-cart-btn" onclick="addToCart('Arrabbiata Rosso', 489)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Arrabbiata Rosso', 489, 'Pasta')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Béchamel Mornay Pasta</span><span class="item-price">₹539</span></div>
 <p class="item-description">Classic French white sauce with gruyere cheese</p>
-<button class="add-to-cart-btn" onclick="addToCart('Béchamel Mornay Pasta', 539)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Béchamel Mornay Pasta', 539, 'Pasta')">Add to Cart</button>
 </div>
 <div class="menu-item">
 <div class="item-header"><span class="item-name">Fresh Ravioli – Chef's Signature</span><span class="item-price">₹599</span></div>
 <p class="item-description">House-made ravioli with seasonal fillings and signature sauce</p>
-<button class="add-to-cart-btn" onclick="addToCart('Fresh Ravioli – Chef\'s Signature', 599)">Add to Cart</button>
+<button class="add-to-cart-btn" onclick="addToCart('Fresh Ravioli – Chef\'s Signature', 599, 'Pasta')">Add to Cart</button>
 </div>
 </div>
 </section>
@@ -684,6 +686,14 @@ footer { text-align: center; padding: 25px 20px; background: rgba(0, 0, 0, 0.5);
 <span>Subtotal:</span>
 <span id="subtotal">₹0</span>
 </div>
+<div class="summary-row">
+<span>CGST (9%):</span>
+<span id="cgst">₹0</span>
+</div>
+<div class="summary-row">
+<span>SGST (9%):</span>
+<span id="sgst">₹0</span>
+</div>
 <div class="summary-row total">
 <span>Total:</span>
 <span id="total">₹0</span>
@@ -698,7 +708,7 @@ footer { text-align: center; padding: 25px 20px; background: rgba(0, 0, 0, 0.5);
 <div class="modal-content">
 <div class="modal-header">
 <h2>Confirm Order</h2>
-<p>Review your order and enter table details</p>
+<p>Review your order and enter details</p>
 </div>
 <form id="checkout-form" onsubmit="submitOrder(event)">
 <div class="form-group">
@@ -706,20 +716,48 @@ footer { text-align: center; padding: 25px 20px; background: rgba(0, 0, 0, 0.5);
 <input type="text" id="table-number" required placeholder="Enter table number (e.g., T-12, A5)">
 </div>
 <div class="form-group">
-<label for="customer-name">Customer Name (Optional)</label>
-<input type="text" id="customer-name" placeholder="Enter customer name">
+<label for="customer-name">Customer Name *</label>
+<input type="text" id="customer-name" required placeholder="Enter customer name">
+</div>
+<div class="form-group">
+<label for="customer-phone">Phone Number *</label>
+<input type="tel" id="customer-phone" required placeholder="10-digit phone number" pattern="[0-9]{10}">
+</div>
+<div class="form-group">
+<label for="payment-mode">Payment Mode *</label>
+<select id="payment-mode" required>
+<option value="">Select payment mode</option>
+<option value="Cash">Cash</option>
+<option value="Card">Card</option>
+<option value="UPI">UPI</option>
+<option value="Digital Wallet">Digital Wallet</option>
+</select>
 </div>
 <div class="order-summary">
 <h3>Order Summary</h3>
 <div id="order-summary-items"></div>
-<div class="summary-row total" style="margin-top: 15px;">
+<div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1);">
+<div class="summary-row">
+<span>Subtotal:</span>
+<span id="modal-subtotal">₹0</span>
+</div>
+<div class="summary-row">
+<span>CGST (9%):</span>
+<span id="modal-cgst">₹0</span>
+</div>
+<div class="summary-row">
+<span>SGST (9%):</span>
+<span id="modal-sgst">₹0</span>
+</div>
+<div class="summary-row total" style="margin-top: 10px;">
 <span>Total Amount:</span>
 <span id="modal-total">₹0</span>
 </div>
 </div>
+</div>
 <div class="modal-actions">
 <button type="button" class="modal-btn btn-cancel" onclick="closeCheckout()">Cancel</button>
-<button type="submit" class="modal-btn btn-confirm">Confirm Order</button>
+<button type="submit" class="modal-btn btn-confirm">Generate Bill</button>
 </div>
 </form>
 </div>
@@ -729,10 +767,15 @@ footer { text-align: center; padding: 25px 20px; background: rgba(0, 0, 0, 0.5);
 <div class="modal-content">
 <div class="success-icon">✓</div>
 <div class="modal-header">
-<h2>Order Placed Successfully!</h2>
-<p id="success-message">Order confirmed for Table T-12</p>
+<h2>Bill Generated Successfully!</h2>
+<p id="success-message">Invoice created for Table T-12</p>
 </div>
-<div class="modal-actions">
+<div style="margin: 20px 0;">
+<p style="color: #999; font-size: 13px; margin-bottom: 10px;">Invoice Number: <span id="invoice-number" style="color: #d4af37; font-weight: 600;">--</span></p>
+<p style="color: #999; font-size: 13px;">Total Amount: <span id="success-total" style="color: #d4af37; font-weight: 600;">₹0</span></p>
+</div>
+<button class="download-btn" onclick="downloadInvoice()">📄 Download PDF Invoice</button>
+<div class="modal-actions" style="margin-top: 20px;">
 <button class="modal-btn btn-confirm" onclick="closeSuccessModal()" style="width: 100%;">New Order</button>
 </div>
 </div>
@@ -740,8 +783,10 @@ footer { text-align: center; padding: 25px 20px; background: rgba(0, 0, 0, 0.5);
 
 <footer>© 2026 Kava The Caffeine House • Waiter Interface</footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 let cart = [];
+let lastInvoiceData = null;
 
 function showSection(sectionId) {
     document.querySelectorAll('.menu-section').forEach(s => s.classList.remove('active'));
@@ -751,12 +796,12 @@ function showSection(sectionId) {
     window.scrollTo({ top: 0, behavior: window.innerWidth <= 768 ? 'smooth' : 'auto' });
 }
 
-function addToCart(name, price) {
+function addToCart(name, price, category) {
     const existingItem = cart.find(item => item.name === name);
     if (existingItem) {
         existingItem.quantity++;
     } else {
-        cart.push({ name, price, quantity: 1 });
+        cart.push({ name, price, quantity: 1, category: category || 'General' });
     }
     updateCart();
 }
@@ -773,6 +818,13 @@ function updateQuantity(index, change) {
     } else {
         updateCart();
     }
+}
+
+function calculateTaxes(subtotal) {
+    const cgst = Math.round(subtotal * 0.09 * 100) / 100;
+    const sgst = Math.round(subtotal * 0.09 * 100) / 100;
+    const total = subtotal + cgst + sgst;
+    return { cgst, sgst, total };
 }
 
 function updateCart() {
@@ -810,18 +862,21 @@ function updateCart() {
     
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const taxes = calculateTaxes(subtotal);
     
     cartCount.textContent = `${totalItems} item${totalItems !== 1 ? 's' : ''}`;
-    document.getElementById('subtotal').textContent = `₹${subtotal}`;
-    document.getElementById('total').textContent = `₹${subtotal}`;
+    document.getElementById('subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+    document.getElementById('cgst').textContent = `₹${taxes.cgst.toFixed(2)}`;
+    document.getElementById('sgst').textContent = `₹${taxes.sgst.toFixed(2)}`;
+    document.getElementById('total').textContent = `₹${taxes.total.toFixed(2)}`;
 }
 
 function openCheckout() {
     const modal = document.getElementById('checkout-modal');
     const summaryContainer = document.getElementById('order-summary-items');
-    const modalTotal = document.getElementById('modal-total');
     
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const taxes = calculateTaxes(subtotal);
     
     summaryContainer.innerHTML = cart.map(item => `
         <div class="order-item">
@@ -831,7 +886,11 @@ function openCheckout() {
         </div>
     `).join('');
     
-    modalTotal.textContent = `₹${subtotal}`;
+    document.getElementById('modal-subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+    document.getElementById('modal-cgst').textContent = `₹${taxes.cgst.toFixed(2)}`;
+    document.getElementById('modal-sgst').textContent = `₹${taxes.sgst.toFixed(2)}`;
+    document.getElementById('modal-total').textContent = `₹${taxes.total.toFixed(2)}`;
+    
     modal.classList.add('active');
 }
 
@@ -840,33 +899,199 @@ function closeCheckout() {
     document.getElementById('checkout-form').reset();
 }
 
+function generateInvoiceNumber() {
+    const date = new Date();
+    const timestamp = date.getTime();
+    return `KVA${timestamp.toString().slice(-10)}`;
+}
+
 function submitOrder(event) {
     event.preventDefault();
     
     const tableNumber = document.getElementById('table-number').value;
     const customerName = document.getElementById('customer-name').value;
+    const customerPhone = document.getElementById('customer-phone').value;
+    const paymentMode = document.getElementById('payment-mode').value;
     
-    // Here you would typically send the order to your backend
-    const orderData = {
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const taxes = calculateTaxes(subtotal);
+    const invoiceNumber = generateInvoiceNumber();
+    
+    lastInvoiceData = {
+        invoiceNumber,
         tableNumber,
         customerName,
-        items: cart,
-        total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
-        timestamp: new Date().toISOString()
+        customerPhone,
+        paymentMode,
+        items: cart.map(item => ({...item})),
+        subtotal,
+        cgst: taxes.cgst,
+        sgst: taxes.sgst,
+        total: taxes.total,
+        timestamp: new Date()
     };
     
-    console.log('Order submitted:', orderData);
+    console.log('Invoice data:', lastInvoiceData);
     
-    // Show success modal
     closeCheckout();
-    const successMessage = document.getElementById('success-message');
-    successMessage.textContent = `Order confirmed for Table ${tableNumber}`;
+    document.getElementById('invoice-number').textContent = invoiceNumber;
+    document.getElementById('success-total').textContent = `₹${taxes.total.toFixed(2)}`;
+    document.getElementById('success-message').textContent = `Invoice created for Table ${tableNumber}`;
     document.getElementById('success-modal').classList.add('active');
+}
+
+function downloadInvoice() {
+    if (!lastInvoiceData) return;
+    
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    const data = lastInvoiceData;
+    let yPos = 20;
+    
+    // Header
+    doc.setFontSize(20);
+    doc.setFont('helvetica', 'bold');
+    doc.text('KAVA THE CAFFEINE HOUSE', 105, yPos, { align: 'center' });
+    
+    yPos += 8;
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Premium Vegetarian Cuisine', 105, yPos, { align: 'center' });
+    
+    yPos += 6;
+    doc.text('Vaishali Nagar, Jaipur - 302021', 105, yPos, { align: 'center' });
+    
+    yPos += 6;
+    doc.text('Phone: +91 8955962269 | GST No: 08ACNFA1631L1Z9', 105, yPos, { align: 'center' });
+    
+    yPos += 10;
+    doc.setLineWidth(0.5);
+    doc.line(20, yPos, 190, yPos);
+    
+    // Invoice details
+    yPos += 8;
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'bold');
+    doc.text('TAX INVOICE', 105, yPos, { align: 'center' });
+    
+    yPos += 10;
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'normal');
+    doc.text(`Invoice No: ${data.invoiceNumber}`, 20, yPos);
+    doc.text(`Date: ${data.timestamp.toLocaleDateString('en-IN')}`, 140, yPos);
+    
+    yPos += 6;
+    doc.text(`Table No: ${data.tableNumber}`, 20, yPos);
+    doc.text(`Time: ${data.timestamp.toLocaleTimeString('en-IN')}`, 140, yPos);
+    
+    yPos += 10;
+    doc.line(20, yPos, 190, yPos);
+    
+    // Customer details
+    yPos += 8;
+    doc.setFont('helvetica', 'bold');
+    doc.text('Bill To:', 20, yPos);
+    
+    yPos += 6;
+    doc.setFont('helvetica', 'normal');
+    doc.text(`Name: ${data.customerName}`, 20, yPos);
+    
+    yPos += 6;
+    doc.text(`Phone: ${data.customerPhone}`, 20, yPos);
+    
+    yPos += 6;
+    doc.text(`Payment Mode: ${data.paymentMode}`, 20, yPos);
+    
+    yPos += 8;
+    doc.line(20, yPos, 190, yPos);
+    
+    // Items header
+    yPos += 8;
+    doc.setFont('helvetica', 'bold');
+    doc.text('Item Description', 20, yPos);
+    doc.text('Qty', 120, yPos);
+    doc.text('Price', 145, yPos);
+    doc.text('Total', 170, yPos);
+    
+    yPos += 4;
+    doc.line(20, yPos, 190, yPos);
+    
+    // Items
+    yPos += 6;
+    doc.setFont('helvetica', 'normal');
+    data.items.forEach(item => {
+        if (yPos > 250) {
+            doc.addPage();
+            yPos = 20;
+        }
+        
+        // Wrap long item names
+        const maxWidth = 90;
+        const itemName = item.name;
+        if (doc.getTextWidth(itemName) > maxWidth) {
+            const lines = doc.splitTextToSize(itemName, maxWidth);
+            doc.text(lines[0], 20, yPos);
+            if (lines[1]) {
+                yPos += 5;
+                doc.text(lines[1], 20, yPos);
+            }
+        } else {
+            doc.text(itemName, 20, yPos);
+        }
+        
+        doc.text(item.quantity.toString(), 120, yPos);
+        doc.text(`₹${item.price.toFixed(2)}`, 145, yPos);
+        doc.text(`₹${(item.price * item.quantity).toFixed(2)}`, 170, yPos);
+        yPos += 6;
+    });
+    
+    yPos += 4;
+    doc.line(20, yPos, 190, yPos);
+    
+    // Totals
+    yPos += 8;
+    doc.text('Subtotal:', 120, yPos);
+    doc.text(`₹${data.subtotal.toFixed(2)}`, 170, yPos);
+    
+    yPos += 6;
+    doc.text('CGST (9%):', 120, yPos);
+    doc.text(`₹${data.cgst.toFixed(2)}`, 170, yPos);
+    
+    yPos += 6;
+    doc.text('SGST (9%):', 120, yPos);
+    doc.text(`₹${data.sgst.toFixed(2)}`, 170, yPos);
+    
+    yPos += 8;
+    doc.line(120, yPos, 190, yPos);
+    
+    yPos += 8;
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.text('TOTAL:', 120, yPos);
+    doc.text(`₹${data.total.toFixed(2)}`, 170, yPos);
+    
+    yPos += 10;
+    doc.line(20, yPos, 190, yPos);
+    
+    // Footer
+    yPos += 8;
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'normal');
+    doc.text('PRICES INCLUSIVE OF ALL TAXES', 105, yPos, { align: 'center' });
+    
+    yPos += 8;
+    doc.text('Thank you for dining with us!', 105, yPos, { align: 'center' });
+    doc.text('Visit us at https://www.kavathecaffeinehouse.com', 105, yPos + 5, { align: 'center' });
+    
+    // Save PDF
+    doc.save(`Invoice_${data.invoiceNumber}.pdf`);
 }
 
 function closeSuccessModal() {
     document.getElementById('success-modal').classList.remove('active');
     cart = [];
+    lastInvoiceData = null;
     updateCart();
 }
 
